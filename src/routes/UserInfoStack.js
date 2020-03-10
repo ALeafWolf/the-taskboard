@@ -1,21 +1,20 @@
 import {createStackNavigator} from 'react-navigation-stack';
-import Home from '../screens/Home';
-import UserInfo from '../screens/User';
+import User from '../screens/User';
 
 const screens = {
-  Home: {
-    screen: Home,
+  User: {
+    screen: User,
     navigationOptions: {
-      title: 'The Taskboard',
+      title: 'User Information',
     },
   },
 };
 
-const HomeStack = createStackNavigator(screens, {
+const UserInfoStack = createStackNavigator(screens, {
   defaultNavigationOptions: {
     headerTintColor: '#444',
     headerStyle: {backgroundColor: '#eee', height: 60},
   },
 });
 
-export default HomeStack;
+export default UserInfoStack;

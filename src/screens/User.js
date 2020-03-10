@@ -8,8 +8,8 @@ import {
   FlatList,
 } from 'react-native';
 
-function Home({navigation}) {
-  const title = 'Home Page';
+function User({navigation}) {
+  const title = 'User Info Page';
   return (
     <View>
       <View style={style.container}>
@@ -26,4 +26,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default Home;
+export default User;
