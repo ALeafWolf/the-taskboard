@@ -1,12 +1,26 @@
 import {createStackNavigator} from 'react-navigation-stack';
 import Home from '../screens/Home';
-import UserInfo from '../screens/User';
+import AddNewTask from '../screens/AddNewTask';
+import TaskDetails from '../screens/TaskDetails';
+import {createAppContainer} from 'react-navigation';
 
 const screens = {
   Home: {
     screen: Home,
     navigationOptions: {
       title: 'The Taskboard',
+    },
+  },
+  AddNewTask: {
+    screen: AddNewTask,
+    navigationOptions: {
+      title: 'Add New Task',
+    },
+  },
+  TaskDetails: {
+    screen: TaskDetails,
+    navigationOptions: {
+      title: 'Task Details',
     },
   },
 };
@@ -18,4 +32,4 @@ const HomeStack = createStackNavigator(screens, {
   },
 });
 
-export default HomeStack;
+export default createAppContainer(HomeStack);
