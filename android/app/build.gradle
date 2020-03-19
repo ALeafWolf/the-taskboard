@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply plugin: 'com.google.gms.google-services'
 
 import com.android.build.OutputFile
 
@@ -179,6 +180,10 @@ android {
 }
 
 dependencies {
+    //for google firebase
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+
+    implementation project(':react-native-firebase')
     implementation project(':react-native-vector-icons')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
@@ -186,6 +191,8 @@ dependencies {
     //for react-navigation/native
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'
+
+
 
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "951817555664",
+    "firebase_url": "https://the-taskboard.firebaseio.com",
+    "project_id": "the-taskboard",
+    "storage_bucket": "the-taskboard.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951817555664:android:8d852deb3aa64cbe7a58d5",
+        "android_client_info": {
+          "package_name": "com.thetaskboard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951817555664-7j71dfn2pcvv4u20a5qc29g572sfmv7d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjhMeWPjCP7XMaNTkAhslSjEcM8-qOSOY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951817555664-7j71dfn2pcvv4u20a5qc29g572sfmv7d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
