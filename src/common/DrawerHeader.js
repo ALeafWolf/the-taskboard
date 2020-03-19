@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import {Icon} from 'react-native-elements';
 
 export default function Header({navigation, title}) {
   const openDrawer = () => {
@@ -8,9 +9,12 @@ export default function Header({navigation, title}) {
 
   return (
     <View style={style.header}>
-      <Text style={style.icon} onPress={openDrawer}>
-        ?
-      </Text>
+      <Icon
+        style={style.icon}
+        name="menu"
+        type="material"
+        onPress={openDrawer}
+      />
       <View>
         <Text style={style.headerText}>{title}</Text>
       </View>
@@ -23,9 +27,12 @@ const style = StyleSheet.create({
     width: '100%',
     height: '100%',
     flexDirection: 'row',
-    backgroundColor: '#a3a9ad',
+    alignItems: 'center',
+    justifyContent: 'center',
+    // backgroundColor: '#a3a9ad',
   },
   icon: {
+    position: 'absolute',
     left: 16,
   },
   headerText: {
@@ -33,5 +40,6 @@ const style = StyleSheet.create({
     fontWeight: 'bold',
     letterSpacing: 1,
     color: '#000',
+    margin: 10,
   },
 });

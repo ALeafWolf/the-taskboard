@@ -14,15 +14,15 @@ const RootDrawerNavigator = createDrawerNavigator({
   UserInfo: {
     screen: UserInfoStack,
   },
-  // Summary: {
-  //   screen: SummaryStack,
-  // },
-  // Library: {
-  //   screen: LibraryStack,
-  // },
-  // Settings: {
-  //   screen: SettingStack,
-  // },
+  Summary: {
+    screen: SummaryStack,
+  },
+  Library: {
+    screen: LibraryStack,
+  },
+  Settings: {
+    screen: SettingStack,
+  },
 });
 
 export default createAppContainer(RootDrawerNavigator);

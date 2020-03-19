@@ -1,11 +1,17 @@
 import {createStackNavigator} from 'react-navigation-stack';
 import User from '../screens/User';
+import Header from '../common/DrawerHeader';
+import React from 'react';
 
 const screens = {
   User: {
     screen: User,
-    navigationOptions: {
-      title: 'User Information',
+    navigationOptions: ({navigation}) => {
+      return {
+        headerTitle: () => (
+          <Header title="User Information" navigation={navigation} />
+        ),
+      };
     },
   },
 };

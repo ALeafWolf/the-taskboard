@@ -1,10 +1,10 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 
-function User({navigation}) {
+function Summary({navigation}) {
   return (
     <View>
-      <Text>User Information</Text>
+      <Text>Task Summary</Text>
     </View>
   );
 }
@@ -16,4 +16,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default User;
+export default Summary;

@@ -1,10 +1,10 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 
-function User({navigation}) {
+function LibraryHome({navigation}) {
   return (
     <View>
-      <Text>User Information</Text>
+      <Text>Task Library</Text>
     </View>
   );
 }
@@ -16,4 +16,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default User;
+export default LibraryHome;
