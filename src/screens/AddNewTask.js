@@ -7,7 +7,7 @@ export default function AddNewTask({navigation}) {
   };
   return (
     <View>
-      <Text>ReviewDetails Screen</Text>
+      <Text>Add New Task Screen</Text>
     </View>
   );
 }

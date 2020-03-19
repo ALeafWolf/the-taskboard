@@ -3,18 +3,12 @@ import {
   StyleSheet,
   View,
   Text,
-  TouchableOpacity,
-  ScrollView,
-  FlatList,
 } from 'react-native';
 
 function User({navigation}) {
-  const title = 'User Info Page';
   return (
     <View>
-      <View style={style.container}>
-        <Text>{title}</Text>
-      </View>
+      <Text>User Information</Text>
     </View>
   );
 }
