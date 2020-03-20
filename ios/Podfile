@@ -38,6 +38,8 @@ target 'TheTaskboard' do
 
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
 
+  pod 'RNGoogleSignin', :path => '../node_modules/@react-native-community/google-signin'
+
   target 'TheTaskboardTests' do
     inherit! :search_paths
     # Pods for testing
