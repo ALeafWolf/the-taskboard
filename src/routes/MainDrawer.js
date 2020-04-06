@@ -7,7 +7,7 @@ import SummaryStack from './SummaryStack';
 import LibraryStack from './LibraryStack';
 import SettingStack from './SettingStack';
 
-const RootDrawerNavigator = createDrawerNavigator({
+const MainDrawer = createDrawerNavigator({
   Home: {
     screen: HomeStack,
   },
@@ -25,4 +25,4 @@ const RootDrawerNavigator = createDrawerNavigator({
   },
 });
 
-export default createAppContainer(RootDrawerNavigator);
+export default MainDrawer;

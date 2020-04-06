@@ -1,9 +1,7 @@
 import 'react-native-gesture-handler';
 import React, {Component} from 'react';
 import firebase from 'react-native-firebase';
-import LoginController from './LoginController';
-
-import Navigator from '../routes/Drawer';
+import MainStack from '../routes/MainStack';
 
 export default class App extends Component {
   constructor() {
@@ -13,16 +11,16 @@ export default class App extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   firebase
-  //     .auth()
-  //     .signInAnonymously()
-  //     .then(() => {
-  //       this.setState({
-  //         isAuthenticated: true,
-  //       });
-  //     });
-  // }
+  componentDidMount() {
+    // firebase
+    //   .auth()
+    //   .signInAnonymously()
+    //   .then(() => {
+    //     this.setState({
+    //       isAuthenticated: true,
+    //     });
+    //   });
+  }
 
   render() {
   //   if (!this.state.isAuthenticated) {
@@ -30,6 +28,6 @@ export default class App extends Component {
   //   }
   //
   //   return <Navigator />;
-    return <LoginController/>;
+    return <MainStack/>;
   }
 }
