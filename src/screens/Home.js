@@ -8,6 +8,8 @@ import {
   ScrollView,
   FlatList,
 } from 'react-native';
+import {FloatingAction} from 'react-native-floating-action';
+
 
 function Home({navigation}) {
   const [info, setInfo] = useState([
@@ -17,12 +19,17 @@ function Home({navigation}) {
   const addHandler = () => {
     navigation.navigate('AddNewTask');
   };
-  const detailsHandler = () => {
-    navigation.navigate('TaskDetails');
-  };
+  // const detailsHandler = () => {
+  //   navigation.navigate('TaskDetails');
+  // };
+  const actions = [{
+    text: "Add new task",
+    position: 1,
+    name: "bt_addTask"
+  }];
 
   return (
-    <View>
+    <View style={style.container}>
       <FlatList
         data={info}
         renderItem={({item}) => (
@@ -33,7 +40,10 @@ function Home({navigation}) {
         )}
         keyExtractor={(item, index) => index.toString()}
       />
-      <Button title={'Add Task'} onPress={addHandler} />
+      {/*<Button title={'Add Task'} onPress={addHandler} />*/}
+      <FloatingAction
+          actions={actions}
+          onPressItem={addHandler} />
     </View>
   );
 }
@@ -42,6 +52,7 @@ const style = StyleSheet.create({
   container: {
     fontSize: 20,
     fontWeight: 'bold',
+    flex: 1
   },
 });
 

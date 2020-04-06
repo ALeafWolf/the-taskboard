@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import firebase from 'react-native-firebase';
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
-import { useNavigation } from '@react-navigation/native';
 
 export default class Login extends Component {
     constructor(props) {
@@ -81,20 +80,28 @@ export default class Login extends Component {
 
     render() {
         return (
-            <View>
+            <View style={style.container}>
                 <Text>The Taskboard</Text>
                 <GoogleSigninButton
                     style={{ width: 192, height: 48 }}
                     size={GoogleSigninButton.Size.Wide}
                     color={GoogleSigninButton.Color.Dark}
                     onPress={this._signIn} />
-                <Button
-                    onPress={this._signOut}
-                    title="Sign Out"
-                    color="#841584"
-                />
+                {/*<Button*/}
+                {/*    onPress={this._signOut}*/}
+                {/*    title="Sign Out"*/}
+                {/*    color="#841584"*/}
+                {/*/>*/}
             </View>
 
         );
     }
 }
+
+const style = StyleSheet.create({
+    container: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        flex: 1
+    },
+});

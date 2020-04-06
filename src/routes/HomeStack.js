@@ -2,6 +2,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import Home from '../screens/Home';
 import AddNewTask from '../screens/AddNewTask';
 import TaskDetails from '../screens/TaskDetails';
+import EditTask from '../screens/EditTask';
 import Header from '../common/DrawerHeader';
 import React from 'react';
 
@@ -26,6 +27,12 @@ const screens = {
     screen: TaskDetails,
     navigationOptions: {
       title: 'Task Details',
+    },
+  },
+  EditTask: {
+    screen: EditTask,
+    navigationOptions: {
+      title: 'Edit Task',
     },
   },
 };

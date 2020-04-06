@@ -6,7 +6,10 @@ import MainDrawer from '../routes/MainDrawer';
 
 const LoginStack = createStackNavigator({
     Login: {
-        screen: LoginScreen
+        screen: LoginScreen,
+        navigationOptions: {
+            headerShown: false
+        }
     }
 });
 
