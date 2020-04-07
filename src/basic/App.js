@@ -1,6 +1,5 @@
 import 'react-native-gesture-handler';
 import React, {Component} from 'react';
-import firebase from 'react-native-firebase';
 import MainStack from '../routes/MainStack';
 
 export default class App extends Component {

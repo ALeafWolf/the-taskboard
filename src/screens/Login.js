@@ -5,7 +5,8 @@ import {
     Text,
     Button,
 } from 'react-native';
-import firebase from 'react-native-firebase';
+import firebase from "@react-native-firebase/app"
+import auth from "@react-native-firebase/auth"
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
 
 export default class Login extends Component {
@@ -32,9 +33,9 @@ export default class Login extends Component {
             const userInfo = await GoogleSignin.signIn();
             this.setState({ userInfo: userInfo, loggedIn: true });
             // create a new firebase credential with the token
-            const credential = firebase.auth.GoogleAuthProvider.credential(userInfo.idToken, userInfo.accessToken);
+            const credential = auth.GoogleAuthProvider.credential(userInfo.idToken, userInfo.accessToken);
             // login with credential
-            const firebaseUserCredential = await firebase.auth().signInWithCredential(credential);
+            const firebaseUserCredential = await auth().signInWithCredential(credential);
             console.log("success");
 
             //navigate to the home page of app
