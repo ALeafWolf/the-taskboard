@@ -15,7 +15,6 @@ export default class Login extends Component {
             loggedIn: false,
             userInfo: null,
         }
-        // console.log(props);
     };
 
     componentDidMount() {
@@ -35,7 +34,7 @@ export default class Login extends Component {
             const credential = auth.GoogleAuthProvider.credential(userInfo.idToken, userInfo.accessToken);
             // login with credential
             const firebaseUserCredential = await auth().signInWithCredential(credential);
-            console.log("success");
+            console.log("login success");
 
             //navigate to the home page of app
             this.props.navigation.navigate("MainDrawer");
@@ -56,6 +55,8 @@ export default class Login extends Component {
         try {
             const userInfo = await GoogleSignin.signInSilently();
             this.setState({ userInfo: userInfo });
+            this.props.navigation.navigate("MainDrawer");
+            console.log("sign in silently success");
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_REQUIRED) {
                 // user has not signed in yet

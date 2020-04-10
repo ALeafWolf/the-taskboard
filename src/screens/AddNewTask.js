@@ -76,46 +76,18 @@ export default class AddNewTask extends Component{
                             <Icon name="md-remove-circle" />
                         </Button>
                         <Input />
-                        {/*<Input label={'1'} value={this.state.task} onChangeText={(task) => this.setState({task})} />*/}
                     </Item>
                 </Form>
             </Content>
             <View>
                 <Fab
-                    active={this.state.fabActive}
-                    direction="up"
-                    containerStyle={{ }}
-                    style={{ backgroundColor: '#5067FF' }}
+                    style={{ backgroundColor: '#34A34F' }}
                     position="bottomRight"
-                    onPress={() => this.setState({ fabActive: !this.state.fabActive })}>
-                    <Icon name="add" />
-                    <Button style={{ backgroundColor: '#34A34F' }} onPress={this.saveTask}>
-                        <Icon name="save" />
-                    </Button>
-                    <Button style={{ backgroundColor: 'red' }}>
-                        <Icon name="cancel" />
-                    </Button>
+                    onPress={this.saveTask}>
+                    <Icon name="md-save" />
                 </Fab>
             </View>
         </Container>
-        // <View style={style.container}>
-        //   <View>
-        //     <Text>Task Title</Text>
-        //     <TextInput />
-        //   </View>
-        //   <View>
-        //     <CheckBox checked={false} onPress={this.toggleTimeLimit} color={"Green"}/>
-        //     <Text>Limited Time Task</Text>
-        //   </View>
-        //   <View>
-        //     <Text>Sub Tasks</Text>
-        //     <Button title={"Add"} onPress={() => this.addInput} />
-        //     <View>
-        //       <Button title={"-"} onPress={() => this.removeInput} />
-        //       <TextInput />
-        //     </View>
-        //   </View>
-        // </View>
     );
   };
 

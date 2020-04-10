@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -8,7 +8,8 @@ import {
   ScrollView,
   FlatList,
 } from 'react-native';
-import {FloatingAction} from 'react-native-floating-action';
+import {Fab, Icon, Content, Container} from 'native-base';
+import firestore from '@react-native-firebase/firestore';
 
 
 function Home({navigation}) {
@@ -16,35 +17,60 @@ function Home({navigation}) {
     {title: 'Eat fruit', target: 1},
     {title: 'Clean rooms', target: 3},
   ]);
+
+  const [ loading, setLoading ] = useState(true);
+  const [ tasks, setTasks ] = useState([]);
+  //load data from firestore
+  const ref = firestore().collection('tasks');
+
   const addHandler = () => {
     navigation.navigate('AddNewTask');
   };
   // const detailsHandler = () => {
   //   navigation.navigate('TaskDetails');
   // };
-  const actions = [{
-    text: "Add new task",
-    position: 1,
-    name: "bt_addTask"
-  }];
+
+  useEffect(() => {
+    return ref.onSnapshot(querySnapshot => {
+      const list = [];
+      querySnapshot.forEach(doc => {
+        const { title, createdDate } = doc.data();
+        list.push({
+          id: doc.id,
+          title,
+          createdDate,
+        });
+      });
+      setTasks(list);
+      if (loading) {
+        setLoading(false);
+      }
+    });
+  }, []);
+
+  //if still loading the data
+  if(loading){
+    return null;
+  }
 
   return (
-    <View style={style.container}>
-      <FlatList
-        data={info}
-        renderItem={({item}) => (
-          <TouchableOpacity
-            onPress={() => navigation.navigate('TaskDetails', item)}>
-            <Text>{item.title}</Text>
-          </TouchableOpacity>
-        )}
-        keyExtractor={(item, index) => index.toString()}
-      />
-      {/*<Button title={'Add Task'} onPress={addHandler} />*/}
-      <FloatingAction
-          actions={actions}
-          onPressItem={addHandler} />
-    </View>
+    <Container>
+        <FlatList
+            data={tasks}
+            keyExtractor={(item) => item.id}
+            renderItem={({item}) => (
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('TaskDetails', item)}>
+                  <Text>{item.title}</Text>
+                </TouchableOpacity>
+            )}
+        />
+      <Fab
+          position="bottomRight"
+          onPress={addHandler}>
+        <Icon name="add" />
+      </Fab>
+    </Container>
   );
 }
 
