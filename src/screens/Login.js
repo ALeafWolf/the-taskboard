@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     StyleSheet,
     View,
     Text,
     Button,
 } from 'react-native';
-import auth from "@react-native-firebase/auth"
-import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
+import auth from '@react-native-firebase/auth';
+import {GoogleSignin, GoogleSigninButton, statusCodes} from '@react-native-community/google-signin';
 
 export default class Login extends Component {
     constructor(props) {
@@ -14,7 +14,7 @@ export default class Login extends Component {
         this.state = {
             loggedIn: false,
             userInfo: null,
-        }
+        };
     };
 
     componentDidMount() {
@@ -29,15 +29,15 @@ export default class Login extends Component {
         try {
             await GoogleSignin.hasPlayServices();
             const userInfo = await GoogleSignin.signIn();
-            this.setState({ userInfo: userInfo, loggedIn: true });
+            this.setState({userInfo: userInfo, loggedIn: true});
             // create a new firebase credential with the token
             const credential = auth.GoogleAuthProvider.credential(userInfo.idToken, userInfo.accessToken);
             // login with credential
             const firebaseUserCredential = await auth().signInWithCredential(credential);
-            console.log("login success");
+            console.log('login success');
 
             //navigate to the home page of app
-            this.props.navigation.navigate("MainDrawer");
+            this.props.navigation.navigate('MainDrawer');
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
                 // user cancelled the login flow
@@ -54,16 +54,16 @@ export default class Login extends Component {
     getCurrentUserInfo = async () => {
         try {
             const userInfo = await GoogleSignin.signInSilently();
-            this.setState({ userInfo: userInfo });
-            this.props.navigation.navigate("MainDrawer");
-            console.log("sign in silently success");
+            this.setState({userInfo: userInfo});
+            this.props.navigation.navigate('MainDrawer');
+            console.log('sign in silently success');
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_REQUIRED) {
                 // user has not signed in yet
-                this.setState({ loggedIn: false });
+                this.setState({loggedIn: false});
             } else {
                 // some other error
-                this.setState({ loggedIn: false });
+                this.setState({loggedIn: false});
             }
         }
     };
@@ -72,8 +72,8 @@ export default class Login extends Component {
         try {
             await GoogleSignin.revokeAccess();
             await GoogleSignin.signOut();
-            this.setState({ userInfo: null, loggedIn: true });
-            console.log("log out");
+            this.setState({userInfo: null, loggedIn: true});
+            console.log('log out');
         } catch (error) {
             console.error(error);
         }
@@ -84,10 +84,10 @@ export default class Login extends Component {
             <View style={style.container}>
                 <Text>The Taskboard</Text>
                 <GoogleSigninButton
-                    style={{ width: 192, height: 48 }}
+                    style={{width: 192, height: 48}}
                     size={GoogleSigninButton.Size.Wide}
                     color={GoogleSigninButton.Color.Dark}
-                    onPress={this._signIn} />
+                    onPress={this._signIn}/>
                 {/*<Button*/}
                 {/*    onPress={this._signOut}*/}
                 {/*    title="Sign Out"*/}
@@ -103,6 +103,7 @@ const style = StyleSheet.create({
     container: {
         fontSize: 20,
         fontWeight: 'bold',
-        flex: 1
+        flex: 1,
+        justifyContent: 'center',
     },
 });
