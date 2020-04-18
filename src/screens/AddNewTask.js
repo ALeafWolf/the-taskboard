@@ -29,11 +29,11 @@ export default class AddNewTask extends Component {
                 title: '',
             },
             fabActive: false,
-            subTasks: {
-                0: 'eat 1 apple',
-                1: 'drink a cup of hot water'
-            },
-            subIndex: 2,
+            // subTasks: {
+            //
+            // },
+            subIndex: 0,
+            subTasks: [],
         };
     }
 
@@ -43,38 +43,52 @@ export default class AddNewTask extends Component {
     };
 
     addInput = () => {
-        let s = Object.assign({}, this.state.subTasks);
-        s[this.state.subIndex] = '';
-        this.setState({
-            subTasks: s,
-            subIndex: this.state.subIndex + 1
-        });
+        // let s = Object.assign({}, this.state.subTasks);
+        // s[this.state.subIndex] = '';
+        // this.setState({
+        //     subTasks: s,
+        //     subIndex: this.state.subIndex + 1
+        // });
+        let s = [...this.state.subTasks];
+        s.push("");
+        console.log(s);
+        this.setState({subTasks:s, subIndex: this.state.subIndex + 1});
     };
 
     editInput = (text, index) => {
-        console.log(text + " " + index);
-        let s = Object.assign({}, this.state.subTasks);
+        // console.log(text + " " + index);
+        // let s = Object.assign({}, this.state.subTasks);
+        // s[index] = text;
+        // this.setState({subTasks: s});
+        let s = [...this.state.subTasks];
         s[index] = text;
-        this.setState({subTasks: s});
+        this.setState({subTasks:s});
     }
 
     removeInput = (index) => {
-        let s = Object.assign({}, this.state.subTasks);
-        delete s[index];
-        this.setState({subTasks: s});
-        console.log("Removed subtask: " + index);
+        // let s = Object.assign({}, this.state.subTasks);
+        // delete s[index];
+        // this.setState({subTasks: s});
+        // console.log("Removed subtask: " + index);
+        let s = [...this.state.subTasks];
+        s.splice(index, 1);
+        this.setState({subTasks:s, subIndex: this.state.subIndex - 1});
     };
 
     saveTask = async () => {
         try{
             let date = new Date();
-            var createdDate = date.getMonth() + '/' + date.getDate() + '/' + date.getFullYear();
-            console.log(this.state.task.title + '\t' + createdDate);
+            var createdDate = date.getMonth() + '-' + date.getDate() + '-' + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+            // console.log(this.state.task.title + '\t' + createdDate);
+            let sub = new Array(this.state.subIndex);
+            sub.fill(false);
             await this.state.ref.add({
                 title: this.state.task.title,
                 createdDate: createdDate,
                 isLimitedTime: this.state.isLimitedTime,
                 subTasks: this.state.subTasks,
+                isCompleted: false,
+                isSubCompleted: sub,
             });
             // Toast.show({
             //     text: 'Task Saved!',
@@ -96,13 +110,13 @@ export default class AddNewTask extends Component {
     };
 
     render() {
-        var subKeys = Object.keys(this.state.subTasks);
-        let subtasks = subKeys.map((i) => {
-            return <Item>
+        // var subKeys = Object.keys(this.state.subTasks);
+        let subtasks = this.state.subTasks.map((s, i) => {
+            return <Item key={i}>
                 <Button danger iconLeft transparent onPress={() => this.removeInput(i)}>
                     <Icon name="md-remove-circle"/>
                 </Button>
-                <Input value={this.state.subTasks[i]} onChangeText={(text) => this.editInput(text, i)} />
+                <Input value={s} onChangeText={(text) => this.editInput(text, i)} />
             </Item>
         });
 
@@ -150,10 +164,10 @@ export default class AddNewTask extends Component {
 
 };
 
-const style = StyleSheet.create({
-    container: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        flex: 1,
-    },
-});
+// const style = StyleSheet.create({
+//     container: {
+//         fontSize: 20,
+//         fontWeight: 'bold',
+//         flex: 1,
+//     },
+// });

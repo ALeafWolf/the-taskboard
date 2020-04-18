@@ -34,7 +34,7 @@ export default class Login extends Component {
             const credential = auth.GoogleAuthProvider.credential(userInfo.idToken, userInfo.accessToken);
             // login with credential
             const firebaseUserCredential = await auth().signInWithCredential(credential);
-            console.log('login success');
+            console.log('\nlogin success');
 
             //navigate to the home page of app
             this.props.navigation.navigate('MainDrawer');
