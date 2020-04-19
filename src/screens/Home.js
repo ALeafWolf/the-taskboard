@@ -49,6 +49,7 @@ function Home({navigation}) {
     return (
         <Container>
             <FlatList
+                style={style.container}
                 data={tasks}
                 keyExtractor={(item) => item.id}
                 renderItem={({item}) => (

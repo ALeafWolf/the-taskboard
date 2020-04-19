@@ -79,7 +79,6 @@ export default class AddNewTask extends Component {
         try{
             let date = new Date();
             var createdDate = date.getMonth() + '-' + date.getDate() + '-' + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-            // console.log(this.state.task.title + '\t' + createdDate);
             let sub = new Array(this.state.subIndex);
             sub.fill(false);
             await this.state.ref.add({
