@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, Text, FlatList} from 'react-native';
-import {Fab, CheckBox, Button} from 'native-base';
+import {Fab, CheckBox, Button, Label, List, ListItem} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import firestore from '@react-native-firebase/firestore';
 
@@ -9,23 +9,17 @@ export default class TaskDetails extends Component{
     constructor(props) {
         super(props);
         this.state = {
+            id: this.props.navigation.getParam('id'),
             ref: firestore().collection('tasks').doc(this.props.navigation.getParam('id')),
             fab: false,
             fields: ['title', 'createdDate', 'isLimitedTime', 'isCompleted', 'subTasks', 'isSubCompleted'],
             detail: {},
-            load: false,
             sub: []
         }
     }
-    // const ref =  ;
-    // let [detail, setDetail] = useState({});
-    // let [loaded, setLoaded] = useState(false);
-    // let [fab, setFab] = useState(false);
-    // let [sub, setSub] = useState([]);
-    // const fields = ;
 
     editHandler = () => {
-        this.props.navigation.navigate('EditTask', this.state.id);
+        this.props.navigation.navigate('EditTask', {id: this.state.id});
     };
 
     getData = () => {
@@ -40,8 +34,7 @@ export default class TaskDetails extends Component{
                 }
             }
             this.setState({
-                detail: o,
-                loaded: true
+                detail: o
             });
         })
     };
@@ -57,8 +50,9 @@ export default class TaskDetails extends Component{
     saveChange = () => {
         this.state.ref.update({
             isSubCompleted: this.state.sub,
-        }).then(console.log("Update success!"));
+        }).then(console.log("Update success!")).catch((err) => console.log("ERROR: " + err));
     }
+
 
     componentDidMount(){
         this.getData();
@@ -66,29 +60,34 @@ export default class TaskDetails extends Component{
 
 
     render(){
-        let subTasks;
-        if(this.state.sub.length != 0){
-            console.log(this.state.sub);
-            subTasks = <FlatList
-                data={this.state.detail.subTasks}
-                keyExtractor={((item, index) => index.toString())}
-                renderItem={({item, index}) => (
-                    <View>
-                        <CheckBox checked={this.state.sub[index]} onPress={() => this.subTaskStateChange(index)}/>
-                        <Text>{item}</Text>
-                    </View>
-
-                )}
-            />;
-        }else{
-            subTasks = <View><Text>owo</Text></View>;
-        }
+        // let subTaskList;
+        // let subTask = this.state.detail.subTasks;
+        // let subCheck = this.state.sub;
+        // console.log(subTask);
+        // for(let i = 0; i < this.state.sub.length; i++){
+        //     subTaskList += <ListItem>
+        //         <CheckBox checked={subCheck[i]} onPress={() => this.subTaskStateChange(i)}/>
+        //         {/*<Label></Label>*/}
+        //     </ListItem>
+        // }
 
 
         return (<View style={style.container}>
             <Text>{this.state.detail.title}</Text>
             <Text>Created at: {this.state.detail.createdDate}</Text>
-            {subTasks}
+            {/*<List keyExtractor={(item => item.toString())}>*/}
+            {/*    {subTaskList}*/}
+            {/*</List>*/}
+            <FlatList
+                data={this.state.detail.subTasks}
+                keyExtractor={((item, index) => index.toString())}
+                renderItem={({item, index}) => (
+                    <ListItem>
+                        <CheckBox checked={this.state.sub[index]} onPress={() => this.subTaskStateChange(index)}/>
+                        <Label>{item}</Label>
+                    </ListItem>
+                )}
+            />
             <Fab
                 active={this.state.fab}
                 direction='up'

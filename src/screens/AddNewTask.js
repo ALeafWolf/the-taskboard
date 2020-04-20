@@ -7,6 +7,7 @@ import {
     Content,
     Form,
     Item,
+    List,
     ListItem,
     Input,
     Label,
@@ -51,7 +52,6 @@ export default class AddNewTask extends Component {
         // });
         let s = [...this.state.subTasks];
         s.push("");
-        console.log(s);
         this.setState({subTasks:s, subIndex: this.state.subIndex + 1});
     };
 
@@ -109,7 +109,6 @@ export default class AddNewTask extends Component {
     };
 
     render() {
-        // var subKeys = Object.keys(this.state.subTasks);
         let subtasks = this.state.subTasks.map((s, i) => {
             return <Item key={i}>
                 <Button danger iconLeft transparent onPress={() => this.removeInput(i)}>

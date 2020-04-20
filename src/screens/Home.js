@@ -8,7 +8,7 @@ import {
     ScrollView,
     FlatList,
 } from 'react-native';
-import {Fab, Icon, Content, Container} from 'native-base';
+import {Fab, Icon, Label, Container} from 'native-base';
 import firestore from '@react-native-firebase/firestore';
 
 
@@ -55,7 +55,7 @@ function Home({navigation}) {
                 renderItem={({item}) => (
                     <TouchableOpacity
                         onPress={() => navigation.navigate('TaskDetails', item)}>
-                        <Text>{item.title}</Text>
+                        <Label>{item.title}</Label>
                     </TouchableOpacity>
                 )}
             />
@@ -73,6 +73,7 @@ const style = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         flex: 1,
+        margin: 20
     },
 });
 
