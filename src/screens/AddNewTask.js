@@ -75,37 +75,27 @@ export default class AddNewTask extends Component {
         this.setState({subTasks:s, subIndex: this.state.subIndex - 1});
     };
 
-    saveTask = async () => {
-        try{
-            let date = new Date();
-            var createdDate = date.getMonth() + '-' + date.getDate() + '-' + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-            let sub = new Array(this.state.subIndex);
-            sub.fill(false);
-            await this.state.ref.add({
-                title: this.state.task.title,
-                createdDate: createdDate,
-                isLimitedTime: this.state.isLimitedTime,
-                subTasks: this.state.subTasks,
-                isCompleted: false,
-                isSubCompleted: sub,
+    saveTask = () => {
+        let date = new Date();
+        var createdDate = date.getMonth() + '-' + date.getDate() + '-' + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        let sub = new Array(this.state.subIndex);
+        sub.fill(false);
+        this.state.ref.add({
+            title: this.state.task.title,
+            createdDate: createdDate,
+            isLimitedTime: this.state.isLimitedTime,
+            subTasks: this.state.subTasks,
+            isCompleted: false,
+            isSubCompleted: sub,
+        }).then(() => {
+            console.log("Task saved!");
+            Toast.show({
+                text: 'Task Saved!',
+                buttonText: 'ok',
+                duration: 3000,
+                type: 'success',
             });
-            // Toast.show({
-            //     text: 'Task Saved!',
-            //     buttonText: 'ok',
-            //     duration: 3000,
-            //     type: 'success',
-            // });
-            this.props.navigation.navigate("Home");
-        }catch (e) {
-            // Toast.show(
-            //     {
-            //         text: e.toString(),
-            //         buttonText: 'ok',
-            //         duration: 3000,
-            //         type: 'danger',
-            //     }
-            // );
-        }
+        }).then(this.props.navigation.navigate("Home")).catch(err => {console.log(err)});
     };
 
     render() {

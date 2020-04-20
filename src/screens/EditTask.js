@@ -20,7 +20,6 @@ export default class EditTask extends Component{
     getData = () => {
         return this.state.ref.onSnapshot(documentSnapshot => {
             let data = documentSnapshot.data();
-            console.log("Edit: " + this.state.id);
             this.setState({
                 detail: {
                     title: data.title,
@@ -29,15 +28,22 @@ export default class EditTask extends Component{
                     isSubCompleted: data.isSubCompleted
                 },
                 subTasks: data.subTasks,
+                subIndex: data.subTasks.length,
             });
         })
     };
 
     saveData = () => {
+        let subBool = new Array(this.state.subIndex);
+        subBool.fill(false);
         this.state.ref.update({
-
-        }).then(console.log("Update success!")).catch((err) => console.log("ERROR: " + err));
-        this.props.navigation.navigate('TaskDetails', this.state.id);
+            title: this.state.detail.title,
+            subTasks: this.state.subTasks,
+            isSubCompleted: subBool,
+        }).then(() => {
+            console.log("Update success!");
+            this.props.navigation.navigate('TaskDetails', this.state.id);
+        }).catch((err) => console.log("ERROR: " + err));
     };
 
     addInput = () => {
@@ -52,6 +58,15 @@ export default class EditTask extends Component{
         this.setState({subTasks:s, subIndex: this.state.subIndex - 1});
     };
 
+    editInput = (text, index) => {
+        // console.log(text + " " + index);
+        // let s = Object.assign({}, this.state.subTasks);
+        // s[index] = text;
+        // this.setState({subTasks: s});
+        let s = [...this.state.subTasks];
+        s[index] = text;
+        this.setState({subTasks:s});
+    }
 
     componentDidMount(){
         this.getData();
