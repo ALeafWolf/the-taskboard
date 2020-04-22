@@ -11,7 +11,7 @@ export default class Summary extends Component{
         this.state = {
             total: 100,
             completed: 100,
-            rate: 1.0,
+            rate: 0,
             name: 'user'
         }
     };
@@ -29,7 +29,7 @@ export default class Summary extends Component{
             this.setState({
                 total: documentSnapshot.get('total'),
                 completed: documentSnapshot.get('completed'),
-                rate: (documentSnapshot.get('completed')/documentSnapshot.get('total')).toFixed(2)
+                rate: (documentSnapshot.get('completed') === 0)?(0):(documentSnapshot.get('completed')/documentSnapshot.get('total')).toFixed(2)
             });
         });
     };

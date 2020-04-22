@@ -5,9 +5,11 @@ import {
     Text,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
-import {Spinner} from 'native-base';
+import {Spinner, Container} from 'native-base';
 import {GoogleSignin, GoogleSigninButton, statusCodes} from '@react-native-community/google-signin';
 import firestore from '@react-native-firebase/firestore';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 
 
 export default class Login extends Component {
@@ -40,13 +42,16 @@ export default class Login extends Component {
 
             //create the profile for new user
             let uid = auth().currentUser.uid;
-            // if(typeof firestore().collection(uid).doc('profile').exists === 'undefined'){
-            //     this.initProfile(firestore().collection(uid).doc('profile'));
-            // };
-            // //create summary for new user
-            // if(typeof firestore().collection(uid).doc('summary').exists === 'undefined'){
-            //     this.initSummary(firestore().collection(uid).doc('summary'));
-            // };
+            let ref = (await firestore().collection(uid).doc('profile').get()).exists;
+            // console.log(ref);
+            if(!ref){
+                this.initProfile(firestore().collection(uid).doc('profile'));
+            };
+            //create summary for new user
+            ref = (await firestore().collection(uid).doc('summary').get()).exists;
+            if(!ref){
+                this.initSummary(firestore().collection(uid).doc('summary'));
+            };
 
             //navigate to the home page of app
             this.props.navigation.navigate('MainDrawer');
@@ -83,52 +88,28 @@ export default class Login extends Component {
         }).catch((err) => {console.error(err)});
     }
 
-    // getCurrentUserInfo = async () => {
-    //     try {
-    //         const userInfo = await GoogleSignin.signInSilently();
-    //         this.setState({userInfo: userInfo});
-    //         this.props.navigation.navigate('MainDrawer');
-    //         console.log('sign in silently success');
-    //     } catch (error) {
-    //         if (error.code === statusCodes.SIGN_IN_REQUIRED) {
-    //             // user has not signed in yet
-    //             this.setState({loggedIn: false});
-    //         } else {
-    //             // some other error
-    //             this.setState({loggedIn: false});
-    //         }
-    //     }
-    // };
-
-    // _signOut = async () => {
-    //     try {
-    //         await GoogleSignin.revokeAccess();
-    //         await GoogleSignin.signOut();
-    //         this.setState({userInfo: null, loggedIn: true});
-    //         console.log('log out');
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // };
-
     render() {
-        let screen = this.state.screen;
         return (
             <View style={style.container}>
                 {!this.state.loggedIn ?
                     (
-                        <View>
-                            <Text>The Taskboard</Text>
-                            <GoogleSigninButton
-                                style={{width: 192, height: 48}}
-                                size={GoogleSigninButton.Size.Wide}
-                                color={GoogleSigninButton.Color.Dark}
-                                onPress={this._signIn}/>
+                        <View style={style.container}>
+                            <View style={style.row}>
+                                <Text style={style.title}>The Taskboard</Text>
+                                <Icon name={'bulletin-board'} size={25}/>
+                            </View>
+                            <View style={style.row}>
+                                <GoogleSigninButton
+                                    style={{width: 192, height: 48}}
+                                    size={GoogleSigninButton.Size.Wide}
+                                    color={GoogleSigninButton.Color.Dark}
+                                    onPress={this._signIn}/>
+                            </View>
                         </View>
                         ) :
                     (
-                        <View>
-                            <Text>Please Wait</Text>
+                        <View style={style.container}>
+                            <Text style={style.title}>Please Wait</Text>
                             <Spinner color={'blue'} />
                         </View>
                     )}
@@ -140,9 +121,22 @@ export default class Login extends Component {
 
 const style = StyleSheet.create({
     container: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+
+    },
+    title: {
         fontSize: 20,
         fontWeight: 'bold',
-        flex: 1,
-        justifyContent: 'center',
+        fontFamily: 'monospace'
     },
+    row: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf:'center',
+    }
 });
