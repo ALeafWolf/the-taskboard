@@ -95,7 +95,7 @@ export default class EditTask extends Component{
                         </Item>
                         <ListItem>
                             <CheckBox checked={this.state.detail.isLimitedTime} onPress={()=>{}} color="green"/>
-                            <Body><Text>enable time limit</Text></Body>
+                            <Body><Text style={{margin: 5, fontSize: 17}}>enable time limit</Text></Body>
                         </ListItem>
                         <Item>
                         </Item>

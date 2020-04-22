@@ -122,7 +122,7 @@ export default class AddNewTask extends Component {
                         </Item>
                         <ListItem>
                             <CheckBox checked={this.state.isLimitedTime} onPress={this.toggleTimeLimit} color="green"/>
-                            <Body><Text>enable time limit</Text></Body>
+                            <Body><Text style={{margin: 5, fontSize: 17}}>enable time limit</Text></Body>
                         </ListItem>
                         <Item>
                         </Item>
