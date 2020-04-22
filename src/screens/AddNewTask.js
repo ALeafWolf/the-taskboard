@@ -19,6 +19,7 @@ import {
     Toast,
 } from 'native-base';
 import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 export default class AddNewTask extends Component {
     constructor(props) {
@@ -84,13 +85,13 @@ export default class AddNewTask extends Component {
             // isCompleted: false,
             isSubCompleted: sub,
         }).then(() => {
+            let docref = firestore().collection(auth().currentUser.uid).doc('summary');
+            const increment = firestore.FieldValue.increment(1);
+            docref.update({
+                total: increment,
+            });
+        }).then(() => {
             alert("Task saved!");
-            // Toast.show({
-            //     text: 'Task Saved!',
-            //     buttonText: 'ok',
-            //     duration: 3000,
-            //     type: 'success',
-            // });
         }).then(this.props.navigation.navigate("Home")).catch(err => {console.log(err)});
     };
 

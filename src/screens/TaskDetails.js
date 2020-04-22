@@ -43,12 +43,12 @@ export default class TaskDetails extends Component{
     };
 
     subTaskStateChange = (index) => {
-        let arr = [...this.state.sub]
+        let arr = [...this.state.sub];
         arr[index] = !arr[index];
         this.setState({
             sub: arr
         });
-    }
+    };
 
     saveChange = () => {
         let t = 0;
@@ -63,7 +63,7 @@ export default class TaskDetails extends Component{
             const increment = firestore.FieldValue.increment(1);
             docref.update({
                 completed: increment,
-            })
+            });
             this.state.ref.delete().then(() => alert('Task Completed!')).catch((err) => alert(err));
             this.props.navigation.navigate('Home')
         }else{
@@ -95,9 +95,6 @@ export default class TaskDetails extends Component{
         return (<View style={style.container}>
             <Text>{this.state.detail.title}</Text>
             <Text>Created at: {this.state.detail.createdDate}</Text>
-            {/*<List keyExtractor={(item => item.toString())}>*/}
-            {/*    {subTaskList}*/}
-            {/*</List>*/}
             <FlatList
                 data={this.state.detail.subTasks}
                 keyExtractor={((item, index) => index.toString())}
