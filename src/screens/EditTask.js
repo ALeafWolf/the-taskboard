@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import firestore from '@react-native-firebase/firestore';
 import {Body, Button, CheckBox, Container, Content, Fab, Form, Icon, Input, Item, Label, ListItem} from 'native-base';
 
 export default class EditTask extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            id: this.props.navigation.getParam('id'),
-            ref: firestore().collection('tasks').doc(this.props.navigation.getParam('id')),
+            ref: this.props.navigation.getParam('ref'),
             fields: ['title', 'createdDate', 'isLimitedTime', 'isCompleted', 'subTasks', 'isSubCompleted'],
             detail: {},
             load: false,
@@ -41,9 +39,8 @@ export default class EditTask extends Component{
             subTasks: this.state.subTasks,
             isSubCompleted: subBool,
         }).then(() => {
-            console.log("Update success!");
-            this.props.navigation.navigate('TaskDetails', this.state.id);
-        }).catch((err) => console.log("ERROR: " + err));
+            alert("Update success!");
+        }).then(this.props.navigation.navigate('TaskDetails', this.state.id)).catch((err) => console.log("ERROR: " + err));
     };
 
     addInput = () => {

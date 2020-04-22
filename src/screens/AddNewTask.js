@@ -25,14 +25,10 @@ export default class AddNewTask extends Component {
         super(props);
         this.state = {
             isLimitedTime: false,
-            ref: firestore().collection('tasks'),
             task: {
                 title: '',
             },
             fabActive: false,
-            // subTasks: {
-            //
-            // },
             subIndex: 0,
             subTasks: [],
         };
@@ -80,7 +76,7 @@ export default class AddNewTask extends Component {
         var createdDate = date.getMonth() + '-' + date.getDate() + '-' + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
         let sub = new Array(this.state.subIndex);
         sub.fill(false);
-        this.state.ref.add({
+        this.props.navigation.getParam('ref').add({
             title: this.state.task.title,
             createdDate: createdDate,
             isLimitedTime: this.state.isLimitedTime,
@@ -88,13 +84,13 @@ export default class AddNewTask extends Component {
             isCompleted: false,
             isSubCompleted: sub,
         }).then(() => {
-            console.log("Task saved!");
-            Toast.show({
-                text: 'Task Saved!',
-                buttonText: 'ok',
-                duration: 3000,
-                type: 'success',
-            });
+            alert("Task saved!");
+            // Toast.show({
+            //     text: 'Task Saved!',
+            //     buttonText: 'ok',
+            //     duration: 3000,
+            //     type: 'success',
+            // });
         }).then(this.props.navigation.navigate("Home")).catch(err => {console.log(err)});
     };
 

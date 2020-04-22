@@ -10,17 +10,18 @@ import {
 } from 'react-native';
 import {Fab, Icon, Label, Container} from 'native-base';
 import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 
 function Home({navigation}) {
-
     const [loading, setLoading] = useState(true);
     const [tasks, setTasks] = useState([]);
     //load data from firestore
-    const ref = firestore().collection('tasks');
+    const uid = auth().currentUser.uid;
+    const ref = firestore().collection(uid);
 
     const addHandler = () => {
-        navigation.navigate('AddNewTask');
+        navigation.navigate('AddNewTask', {ref: ref});
     };
 
     useEffect(() => {
@@ -54,7 +55,7 @@ function Home({navigation}) {
                 keyExtractor={(item) => item.id}
                 renderItem={({item}) => (
                     <TouchableOpacity
-                        onPress={() => navigation.navigate('TaskDetails', item)}>
+                        onPress={() => navigation.navigate('TaskDetails', {id: item.id, ref: ref})}>
                         <Label>{item.title}</Label>
                     </TouchableOpacity>
                 )}

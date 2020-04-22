@@ -3,10 +3,12 @@ import {
     StyleSheet,
     View,
     Text,
-    Button,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import {Spinner} from 'native-base';
 import {GoogleSignin, GoogleSigninButton, statusCodes} from '@react-native-community/google-signin';
+import firestore from '@react-native-firebase/firestore';
+
 
 export default class Login extends Component {
     constructor(props) {
@@ -14,7 +16,7 @@ export default class Login extends Component {
         this.state = {
             loggedIn: false,
             userInfo: null,
-        };
+        }
     };
 
     componentDidMount() {
@@ -35,7 +37,11 @@ export default class Login extends Component {
             // login with credential
             const firebaseUserCredential = await auth().signInWithCredential(credential);
             console.log('\nlogin success');
-
+            //create the profile for new user
+            let uid = auth().currentUser.uid;
+            if(firestore().collection(uid).doc('profile').exists === false){
+                this.initProfile(firestore().collection(uid).doc('profile'));
+            }
             //navigate to the home page of app
             this.props.navigation.navigate('MainDrawer');
         } catch (error) {
@@ -51,50 +57,68 @@ export default class Login extends Component {
         }
     };
 
-    getCurrentUserInfo = async () => {
-        try {
-            const userInfo = await GoogleSignin.signInSilently();
-            this.setState({userInfo: userInfo});
-            this.props.navigation.navigate('MainDrawer');
-            console.log('sign in silently success');
-        } catch (error) {
-            if (error.code === statusCodes.SIGN_IN_REQUIRED) {
-                // user has not signed in yet
-                this.setState({loggedIn: false});
-            } else {
-                // some other error
-                this.setState({loggedIn: false});
-            }
-        }
-    };
+    initProfile = (ref) => {
+        let user = auth().currentUser;
+        ref.set({
+            name: user.displayName,
+            img: user.photoURL,
+            email: user.email
+        }).then(() => {
+            console.log('Initialize user profile success');
+        }).catch((err) => {console.error(err)});
+    }
 
-    _signOut = async () => {
-        try {
-            await GoogleSignin.revokeAccess();
-            await GoogleSignin.signOut();
-            this.setState({userInfo: null, loggedIn: true});
-            console.log('log out');
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    // getCurrentUserInfo = async () => {
+    //     try {
+    //         const userInfo = await GoogleSignin.signInSilently();
+    //         this.setState({userInfo: userInfo});
+    //         this.props.navigation.navigate('MainDrawer');
+    //         console.log('sign in silently success');
+    //     } catch (error) {
+    //         if (error.code === statusCodes.SIGN_IN_REQUIRED) {
+    //             // user has not signed in yet
+    //             this.setState({loggedIn: false});
+    //         } else {
+    //             // some other error
+    //             this.setState({loggedIn: false});
+    //         }
+    //     }
+    // };
+
+    // _signOut = async () => {
+    //     try {
+    //         await GoogleSignin.revokeAccess();
+    //         await GoogleSignin.signOut();
+    //         this.setState({userInfo: null, loggedIn: true});
+    //         console.log('log out');
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
 
     render() {
+        let screen = this.state.screen;
         return (
             <View style={style.container}>
-                <Text>The Taskboard</Text>
-                <GoogleSigninButton
-                    style={{width: 192, height: 48}}
-                    size={GoogleSigninButton.Size.Wide}
-                    color={GoogleSigninButton.Color.Dark}
-                    onPress={this._signIn}/>
-                {/*<Button*/}
-                {/*    onPress={this._signOut}*/}
-                {/*    title="Sign Out"*/}
-                {/*    color="#841584"*/}
-                {/*/>*/}
-            </View>
+                {!this.state.loggedIn ?
+                    (
+                        <View>
+                            <Text>The Taskboard</Text>
+                            <GoogleSigninButton
+                                style={{width: 192, height: 48}}
+                                size={GoogleSigninButton.Size.Wide}
+                                color={GoogleSigninButton.Color.Dark}
+                                onPress={this._signIn}/>
+                        </View>
+                        ) :
+                    (
+                        <View>
+                            <Text>Please Wait</Text>
+                            <Spinner color={'blue'} />
+                        </View>
+                    )}
 
+            </View>
         );
     }
 }

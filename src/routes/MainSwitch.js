@@ -13,7 +13,7 @@ const LoginStack = createStackNavigator({
     }
 });
 
-const MainStack = createSwitchNavigator({
+const MainSwitch = createSwitchNavigator({
     Login: {
         screen: LoginStack
     },
@@ -22,5 +22,5 @@ const MainStack = createSwitchNavigator({
     }
 });
 
-export default createAppContainer(MainStack);
+export default createAppContainer(MainSwitch);
 

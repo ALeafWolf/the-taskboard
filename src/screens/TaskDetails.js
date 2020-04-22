@@ -10,7 +10,7 @@ export default class TaskDetails extends Component{
         super(props);
         this.state = {
             id: this.props.navigation.getParam('id'),
-            ref: firestore().collection('tasks').doc(this.props.navigation.getParam('id')),
+            ref: this.props.navigation.getParam('ref').doc(this.props.navigation.getParam('id')),
             fab: false,
             fields: ['title', 'createdDate', 'isLimitedTime', 'isCompleted', 'subTasks', 'isSubCompleted'],
             detail: {},
@@ -19,7 +19,7 @@ export default class TaskDetails extends Component{
     }
 
     editHandler = () => {
-        this.props.navigation.navigate('EditTask', {id: this.state.id});
+        this.props.navigation.navigate('EditTask', {ref: this.state.ref});
     };
 
     getData = () => {
@@ -50,7 +50,7 @@ export default class TaskDetails extends Component{
     saveChange = () => {
         this.state.ref.update({
             isSubCompleted: this.state.sub,
-        }).then(console.log("Update success!")).catch((err) => console.log("ERROR: " + err));
+        }).then(() => {alert("Update success!")}).catch((err) => alert("ERROR: " + err));
     }
 
 

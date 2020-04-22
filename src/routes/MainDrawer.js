@@ -11,16 +11,16 @@ const MainDrawer = createDrawerNavigator({
   Home: {
     screen: HomeStack,
   },
-  UserInfo: {
-    screen: UserInfoStack,
-  },
+  // User: {
+  //   screen: UserInfoStack,
+  // },
   Summary: {
     screen: SummaryStack,
   },
-  Library: {
-    screen: LibraryStack,
-  },
-  Settings: {
+  // Library: {
+  //   screen: LibraryStack,
+  // },
+  Setting: {
     screen: SettingStack,
   },
 });

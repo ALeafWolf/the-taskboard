@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, {Component} from 'react';
-import MainStack from '../routes/MainStack';
+import MainSwitch from '../routes/MainSwitch';
 
 export default class App extends Component {
   constructor() {
@@ -27,6 +27,6 @@ export default class App extends Component {
   //   }
   //
   //   return <Navigator />;
-    return <MainStack/>;
+    return <MainSwitch/>;
   }
 }
