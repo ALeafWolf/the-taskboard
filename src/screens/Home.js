@@ -28,12 +28,13 @@ function Home({navigation}) {
         return ref.onSnapshot(querySnapshot => {
             const list = [];
             querySnapshot.forEach(doc => {
-                const {title, createdDate} = doc.data();
-                list.push({
-                    id: doc.id,
-                    title,
-                    createdDate,
-                });
+                const {title} = doc.data();
+                if(typeof title !== 'undefined'){
+                    list.push({
+                        id: doc.id,
+                        title,
+                    });
+                }
             });
             setTasks(list);
             if (loading) {
@@ -56,7 +57,7 @@ function Home({navigation}) {
                 renderItem={({item}) => (
                     <TouchableOpacity
                         onPress={() => navigation.navigate('TaskDetails', {id: item.id, ref: ref})}>
-                        <Label>{item.title}</Label>
+                        <Label style={{fontSize: 20, margin: 5}}>{item.title}</Label>
                     </TouchableOpacity>
                 )}
             />
@@ -71,7 +72,6 @@ function Home({navigation}) {
 
 const style = StyleSheet.create({
     container: {
-        fontSize: 20,
         fontWeight: 'bold',
         flex: 1,
         margin: 20

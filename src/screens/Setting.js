@@ -17,7 +17,7 @@ export default class Setting extends Component{
             img: 'https://firebasestorage.googleapis.com/v0/b/the-taskboard.appspot.com/o/no_image.png?alt=media&token=736eaec1-6e8e-4f87-86d9-19057d998f35',
             email: ''
         }
-    }
+    };
 
     getData = () => {
         return this.state.ref.onSnapshot(documentSnapshot => {
@@ -36,6 +36,8 @@ export default class Setting extends Component{
             storageOptions: {
                 skipBackup: true,
                 path: 'images',
+                maxWidth: 100,
+                maxHeight: 100
             },
         };
         ImagePicker.showImagePicker(option, (response) => {
@@ -52,10 +54,9 @@ export default class Setting extends Component{
                 let path = auth().currentUser.uid + "/image/avatar.jpg";
                 this.uploadImage(path, source).then(() => {
                 }).catch((err) => {console.log(err)});
-                this.getImage().then((url) => {this.setState({img: url})})
             }
         });
-    }
+    };
 
     _signOut = async () => {
         try {
@@ -69,17 +70,22 @@ export default class Setting extends Component{
     };
 
     uploadImage = async (path, img) => {
-        await storage().ref(path).putFile(img);
-    }
-
-    getImage = async (path) => {
-        let url = await storage().ref(path).getDownloadURL();
-        // console.log(url);
-        return url;
+        let ref = storage().ref(path);
+        //upload local image to the storage
+        await ref.putFile(img);
+        //get url of the image from the storage
+        await ref.getDownloadURL().then((url) => {
+            this.setState({
+            img: url
+            });
+            //store the url to profile
+            this.state.ref.update({
+                img: url
+            });
+        });
     }
 
     componentDidMount(){
-        // this.getImage().then((url) => {this.setState({img: url})});
         this.getData();
     }
 
@@ -102,11 +108,6 @@ export default class Setting extends Component{
 
 }
 
-const style = StyleSheet.create({
-    container: {
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-});
+
 
 

@@ -3,6 +3,7 @@ import {StyleSheet, View, Text, FlatList} from 'react-native';
 import {Fab, CheckBox, Button, Label, List, ListItem} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 
 export default class TaskDetails extends Component{
@@ -26,16 +27,18 @@ export default class TaskDetails extends Component{
         return this.state.ref.onSnapshot(documentSnapshot => {
             let o = {};
             let data = documentSnapshot.data();
-            for(let i = 0; i < this.state.fields.length; i++){
-                let field = this.state.fields[i];
-                o[field] = data[field];
-                if(field == 'isSubCompleted'){
-                    this.setState({sub: data[field]});
+            if(typeof data !== 'undefined'){
+                for(let i = 0; i < this.state.fields.length; i++){
+                    let field = this.state.fields[i];
+                    o[field] = data[field];
+                    if(field === 'isSubCompleted'){
+                        this.setState({sub: data[field]});
+                    }
                 }
+                this.setState({
+                    detail: o
+                });
             }
-            this.setState({
-                detail: o
-            });
         })
     };
 
@@ -48,10 +51,27 @@ export default class TaskDetails extends Component{
     }
 
     saveChange = () => {
-        this.state.ref.update({
-            isSubCompleted: this.state.sub,
-        }).then(() => {alert("Update success!")}).catch((err) => alert("ERROR: " + err));
-    }
+        let t = 0;
+        for(let i = 0; i < this.state.sub.length; i++){
+            if (this.state.sub[i] === true){
+                t++;
+            }
+        };
+        //all sub tasks are completed or not
+        if(t === this.state.sub.length){
+            let docref = firestore().collection(auth().currentUser.uid).doc('summary');
+            const increment = firestore.FieldValue.increment(1);
+            docref.update({
+                completed: increment,
+            })
+            this.state.ref.delete().then(() => alert('Task Completed!')).catch((err) => alert(err));
+            this.props.navigation.navigate('Home')
+        }else{
+            this.state.ref.update({
+                isSubCompleted: this.state.sub,
+            }).then(() => {alert("Update success!")}).catch((err) => alert("ERROR: " + err));
+        };
+    };
 
 
     componentDidMount(){

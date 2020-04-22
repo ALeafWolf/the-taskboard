@@ -81,7 +81,7 @@ export default class AddNewTask extends Component {
             createdDate: createdDate,
             isLimitedTime: this.state.isLimitedTime,
             subTasks: this.state.subTasks,
-            isCompleted: false,
+            // isCompleted: false,
             isSubCompleted: sub,
         }).then(() => {
             alert("Task saved!");

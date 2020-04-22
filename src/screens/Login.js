@@ -36,12 +36,18 @@ export default class Login extends Component {
             const credential = auth.GoogleAuthProvider.credential(userInfo.idToken, userInfo.accessToken);
             // login with credential
             const firebaseUserCredential = await auth().signInWithCredential(credential);
-            console.log('\nlogin success');
+            console.log('login success');
+
             //create the profile for new user
             let uid = auth().currentUser.uid;
-            if(firestore().collection(uid).doc('profile').exists === false){
-                this.initProfile(firestore().collection(uid).doc('profile'));
-            }
+            // if(typeof firestore().collection(uid).doc('profile').exists === 'undefined'){
+            //     this.initProfile(firestore().collection(uid).doc('profile'));
+            // };
+            // //create summary for new user
+            // if(typeof firestore().collection(uid).doc('summary').exists === 'undefined'){
+            //     this.initSummary(firestore().collection(uid).doc('summary'));
+            // };
+
             //navigate to the home page of app
             this.props.navigation.navigate('MainDrawer');
         } catch (error) {
@@ -65,6 +71,15 @@ export default class Login extends Component {
             email: user.email
         }).then(() => {
             console.log('Initialize user profile success');
+        }).catch((err) => {console.error(err)});
+    };
+
+    initSummary = (ref) => {
+        ref.set({
+            total: 0,
+            completed: 0,
+        }).then(() => {
+            console.log('Initialize user summary success');
         }).catch((err) => {console.error(err)});
     }
 
